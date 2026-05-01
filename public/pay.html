@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<title>DiAir Bersih</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,sans-serif;background:#f0f9ff;
+     min-height:100vh;display:flex;align-items:center;
+     justify-content:center;padding:16px}
+.card{background:#fff;border-radius:24px;padding:28px 22px 24px;
+      max-width:340px;width:100%;text-align:center;
+      box-shadow:0 8px 32px rgba(14,165,233,0.15)}
+h1{font-size:22px;font-weight:700;color:#0c4a6e;margin-bottom:4px}
+.sub{font-size:13px;color:#64748b;margin-bottom:24px}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:20px}
+.opt{border:2px solid #e0f2fe;border-radius:12px;padding:14px 6px 11px;
+     cursor:pointer;background:#f8fafc;transition:all .15s}
+.opt.sel{border-color:#0ea5e9;background:#e0f2fe}
+.rm{font-size:20px;font-weight:700;color:#0369a1}
+.lt{font-size:11px;color:#64748b;margin-top:2px}
+.lt b{color:#0ea5e9;font-weight:600}
+.cta{width:100%;padding:14px;background:#0ea5e9;color:#fff;border:none;
+     border-radius:12px;font-size:16px;font-weight:600;cursor:pointer}
+.cta:disabled{background:#cbd5e1;cursor:not-allowed}
+.methods{display:flex;justify-content:center;gap:12px;margin-top:14px;flex-wrap:wrap}
+.m{font-size:10px;color:#94a3b8;font-weight:500}
+</style>
+</head>
+<body>
+<div class="card">
+  <h1>DiAir Bersih</h1>
+  <p class="sub">Pilih jumlah &bull; bayar &bull; air terus keluar</p>
+  <div class="grid">
+    <div class="opt" onclick="pick(this,1,1)">
+      <div class="rm">RM1</div><div class="lt"><b>1</b> liter</div></div>
+    <div class="opt" onclick="pick(this,2,2)">
+      <div class="rm">RM2</div><div class="lt"><b>2</b> liter</div></div>
+    <div class="opt" onclick="pick(this,5,5)">
+      <div class="rm">RM5</div><div class="lt"><b>5</b> liter</div></div>
+  </div>
+  <button class="cta" id="cta" disabled onclick="pay()">Pilih jumlah dahulu</button>
+  <div class="methods">
+    <span class="m">DuitNow QR</span>
+    <span class="m">Touch 'n Go</span>
+    <span class="m">Alipay</span>
+    <span class="m">FPX</span>
+    <span class="m">Visa / MC</span>
+  </div>
+</div>
+<form id="pf" method="POST"
+  action="https://pay.fiuu.com/index.php/api/entry"
+  style="display:none"></form>
+<script>
+var sel=null;
+var MERCHANT="cheahzikan22939";
+var RETURN="https://YOUR-SITE.netlify.app/thankyou.html";
+var BACKEND="https://YOUR-SITE.netlify.app/.netlify/functions/payment-webhook";
+function pick(el,a,l){
+  document.querySelectorAll(".opt").forEach(o=>o.classList.remove("sel"));
+  el.classList.add("sel");sel={a,l};
+  var c=document.getElementById("cta");
+  c.disabled=false;c.textContent="Bayar RM"+a+" — "+l+" Liter";
+}
+function f(n,v){var i=document.createElement("input");
+  i.type="hidden";i.name=n;i.value=v;
+  document.getElementById("pf").appendChild(i);}
+function pay(){
+  if(!sel)return;
+  var id="WVM"+Date.now();
+  document.getElementById("pf").innerHTML="";
+  [["MerchantCode",MERCHANT],["PaymentId",""],["RefNo",id],
+   ["Amount",sel.a.toFixed(2)],["Currency","MYR"],
+   ["ProdDesc",sel.l+" liter air bersih"],["UserName","Pelanggan"],
+   ["UserEmail","customer@diair.my"],["UserContact","0122773093"],
+   ["Remark",""],["Lang","UTF-8"],["SignatureType","MD5"],["Signature",""],
+   ["ResponseURL",RETURN],["BackendURL",BACKEND]
+  ].forEach(r=>f(r[0],r[1]));
+  document.getElementById("pf").submit();
+}
+</script>
+</body>
+</html>

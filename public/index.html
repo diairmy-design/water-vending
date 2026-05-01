@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="CHEAH ZI KANG — Clean, affordable purified water dispensed by QR payment at your convenience. Serving Malaysia.">
+<title>CHEAH ZI KANG — Pure Water Vending</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Lora:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #0d2136;
+  --mid: #3a6680;
+  --soft: #6b9ab8;
+  --pale: #e8f4fb;
+  --accent: #0ea5e9;
+  --accent-dark: #0369a1;
+  --white: #ffffff;
+  --grey: #f7fafc;
+  --border: #d1e9f5;
+  --radius: 14px;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: 'Outfit', sans-serif; color: var(--ink); background: var(--white); }
+
+/* NAV */
+nav {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(255,255,255,0.94);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 5vw;
+  display: flex; align-items: center; justify-content: space-between;
+  height: 64px;
+}
+.logo { font-size: 20px; font-weight: 700; color: var(--ink); text-decoration: none; display: flex; align-items: center; gap: 10px; }
+.logo-drop { width: 32px; height: 32px; background: var(--accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+.logo-drop svg { width: 16px; height: 16px; }
+nav ul { list-style: none; display: flex; gap: 2rem; }
+nav ul li a { font-size: 14px; font-weight: 500; color: var(--mid); text-decoration: none; transition: color .2s; }
+nav ul li a:hover { color: var(--accent); }
+.nav-cta { background: var(--accent); color: white !important; padding: 8px 18px; border-radius: 8px; transition: background .2s !important; }
+.nav-cta:hover { background: var(--accent-dark) !important; color: white !important; }
+
+/* HERO */
+.hero {
+  min-height: 92vh;
+  display: flex; align-items: center;
+  padding: 80px 5vw 60px;
+  background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 40%, #bae6fd 100%);
+  position: relative; overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute; bottom: -80px; right: -80px;
+  width: 500px; height: 500px;
+  background: radial-gradient(circle, rgba(14,165,233,0.12) 0%, transparent 70%);
+  border-radius: 50%;
+}
+.hero-inner { max-width: 1100px; margin: 0 auto; width: 100%; display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
+.hero-badge { display: inline-flex; align-items: center; gap: 7px; background: rgba(14,165,233,0.12); color: var(--accent-dark); font-size: 13px; font-weight: 600; padding: 6px 14px; border-radius: 999px; margin-bottom: 24px; letter-spacing: .02em; }
+.hero-badge::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: var(--accent); }
+h1 { font-size: clamp(36px, 5vw, 58px); font-weight: 700; line-height: 1.1; color: var(--ink); margin-bottom: 20px; }
+h1 em { font-style: normal; color: var(--accent); }
+.hero-sub { font-size: 18px; color: var(--mid); line-height: 1.65; margin-bottom: 36px; font-weight: 400; }
+.hero-btns { display: flex; gap: 14px; flex-wrap: wrap; }
+.btn-primary { display: inline-flex; align-items: center; gap: 8px; background: var(--accent); color: white; font-size: 16px; font-weight: 600; padding: 14px 28px; border-radius: 10px; text-decoration: none; transition: background .2s, transform .15s; }
+.btn-primary:hover { background: var(--accent-dark); transform: translateY(-1px); }
+.btn-secondary { display: inline-flex; align-items: center; gap: 8px; background: white; color: var(--ink); font-size: 16px; font-weight: 500; padding: 14px 28px; border-radius: 10px; border: 1.5px solid var(--border); text-decoration: none; transition: border-color .2s, transform .15s; }
+.btn-secondary:hover { border-color: var(--accent); transform: translateY(-1px); }
+.hero-visual { display: flex; justify-content: center; align-items: center; }
+.machine-card {
+  background: white; border-radius: 24px; padding: 36px 32px;
+  box-shadow: 0 20px 60px rgba(14,165,233,0.15), 0 4px 16px rgba(0,0,0,0.06);
+  text-align: center; max-width: 300px; width: 100%;
+}
+.machine-icon { font-size: 72px; line-height: 1; margin-bottom: 16px; }
+.machine-card h3 { font-size: 18px; font-weight: 700; color: var(--ink); margin-bottom: 8px; }
+.machine-card p { font-size: 14px; color: var(--mid); line-height: 1.5; margin-bottom: 24px; }
+.payment-badges { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+.payment-badge { background: var(--pale); color: var(--accent-dark); font-size: 11px; font-weight: 600; padding: 5px 12px; border-radius: 999px; border: 1px solid var(--border); }
+
+/* STATS */
+.stats { background: var(--ink); padding: 48px 5vw; }
+.stats-inner { max-width: 900px; margin: 0 auto; display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
+.stat { text-align: center; }
+.stat-num { font-size: 42px; font-weight: 700; color: var(--accent); line-height: 1; }
+.stat-label { font-size: 13px; color: rgba(255,255,255,0.55); margin-top: 6px; font-weight: 400; }
+
+/* HOW IT WORKS */
+.section { padding: 96px 5vw; }
+.section-inner { max-width: 1100px; margin: 0 auto; }
+.section-tag { font-size: 12px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--accent); margin-bottom: 12px; }
+.section-title { font-size: clamp(28px, 4vw, 42px); font-weight: 700; color: var(--ink); margin-bottom: 14px; line-height: 1.15; }
+.section-sub { font-size: 17px; color: var(--mid); line-height: 1.6; max-width: 560px; }
+.steps-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; margin-top: 56px; }
+.step-card { background: var(--grey); border: 1px solid var(--border); border-radius: var(--radius); padding: 28px 22px; position: relative; overflow: hidden; }
+.step-card::before { content: attr(data-num); position: absolute; top: -8px; right: 16px; font-size: 64px; font-weight: 800; color: rgba(14,165,233,0.07); line-height: 1; }
+.step-icon { width: 44px; height: 44px; background: var(--pale); border-radius: 10px; display: flex; align-items: center; justify-content: center; margin-bottom: 16px; font-size: 22px; }
+.step-card h4 { font-size: 16px; font-weight: 700; color: var(--ink); margin-bottom: 8px; }
+.step-card p { font-size: 14px; color: var(--mid); line-height: 1.55; }
+
+/* WHY US */
+.why { background: var(--pale); }
+.features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; margin-top: 52px; }
+.feature { background: white; border: 1px solid var(--border); border-radius: var(--radius); padding: 28px 24px; }
+.feature-icon { font-size: 28px; margin-bottom: 14px; }
+.feature h4 { font-size: 16px; font-weight: 700; color: var(--ink); margin-bottom: 8px; }
+.feature p { font-size: 14px; color: var(--mid); line-height: 1.6; }
+
+/* PAYMENT */
+.payments-section { background: var(--ink); }
+.payments-section .section-title { color: white; }
+.payments-section .section-sub { color: rgba(255,255,255,0.6); }
+.payment-methods { display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; margin-top: 48px; }
+.pm { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); border-radius: var(--radius); padding: 24px 16px; text-align: center; }
+.pm-icon { font-size: 28px; margin-bottom: 10px; }
+.pm-name { font-size: 13px; font-weight: 600; color: white; }
+.pm-sub { font-size: 11px; color: rgba(255,255,255,0.45); margin-top: 3px; }
+
+/* ABOUT */
+.about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
+.about-text p { font-size: 16px; color: var(--mid); line-height: 1.7; margin-bottom: 16px; }
+.about-text p:first-child { font-size: 18px; color: var(--ink); font-family: 'Lora', serif; font-style: italic; }
+.info-list { margin-top: 32px; display: flex; flex-direction: column; gap: 12px; }
+.info-item { display: flex; align-items: flex-start; gap: 12px; padding: 14px 16px; background: var(--grey); border: 1px solid var(--border); border-radius: 10px; }
+.info-item-icon { flex-shrink: 0; width: 36px; height: 36px; background: var(--pale); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 18px; }
+.info-item-text strong { display: block; font-size: 13px; font-weight: 600; color: var(--ink); }
+.info-item-text span { font-size: 13px; color: var(--mid); }
+
+/* CTA */
+.cta-section { background: linear-gradient(135deg, #0ea5e9, #0369a1); padding: 80px 5vw; text-align: center; }
+.cta-section h2 { font-size: clamp(28px, 4vw, 42px); font-weight: 700; color: white; margin-bottom: 14px; }
+.cta-section p { font-size: 18px; color: rgba(255,255,255,0.75); margin-bottom: 36px; }
+.btn-white { display: inline-flex; align-items: center; gap: 8px; background: white; color: var(--accent-dark); font-size: 16px; font-weight: 700; padding: 16px 32px; border-radius: 10px; text-decoration: none; transition: transform .15s; }
+.btn-white:hover { transform: translateY(-2px); }
+
+/* FOOTER */
+footer { background: #07182a; padding: 48px 5vw 32px; }
+.footer-inner { max-width: 1100px; margin: 0 auto; }
+.footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; margin-bottom: 40px; }
+.footer-brand p { font-size: 14px; color: rgba(255,255,255,0.45); line-height: 1.6; margin-top: 12px; }
+.footer-col h5 { font-size: 13px; font-weight: 700; color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: .06em; margin-bottom: 14px; }
+.footer-col ul { list-style: none; }
+.footer-col ul li { margin-bottom: 8px; }
+.footer-col ul li a { font-size: 14px; color: rgba(255,255,255,0.45); text-decoration: none; transition: color .2s; }
+.footer-col ul li a:hover { color: var(--accent); }
+.footer-bottom { border-top: 1px solid rgba(255,255,255,0.08); padding-top: 24px; display: flex; justify-content: space-between; align-items: center; flex-wrap: gap; gap: 12px; }
+.footer-bottom p { font-size: 13px; color: rgba(255,255,255,0.3); }
+.footer-bottom a { color: rgba(255,255,255,0.3); text-decoration: none; }
+.footer-bottom a:hover { color: var(--accent); }
+
+@media (max-width: 768px) {
+  nav ul { display: none; }
+  .hero-inner { grid-template-columns: 1fr; }
+  .hero-visual { display: none; }
+  .stats-inner { grid-template-columns: repeat(2, 1fr); }
+  .steps-grid { grid-template-columns: 1fr 1fr; }
+  .features-grid { grid-template-columns: 1fr; }
+  .payment-methods { grid-template-columns: repeat(3, 1fr); }
+  .about-grid { grid-template-columns: 1fr; }
+  .footer-grid { grid-template-columns: 1fr 1fr; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="logo">
+    <div class="logo-drop">
+      <svg viewBox="0 0 16 16" fill="white"><path d="M8 1C8 1 3 6.5 3 10a5 5 0 0010 0C13 6.5 8 1 8 1z"/></svg>
+    </div>
+    CHEAH ZI KANG
+  </a>
+  <ul>
+    <li><a href="#how-it-works">How It Works</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="contact.html">Contact</a></li>
+    <li><a href="pay.html" class="nav-cta">Get Water</a></li>
+  </ul>
+</nav>
+
+<section class="hero">
+  <div class="hero-inner">
+    <div>
+      <div class="hero-badge">Available 24/7 · No registration needed</div>
+      <h1>Pure water,<br>paid with<br><em>your phone</em></h1>
+      <p class="hero-sub">Scan. Pay. Done. Fresh purified water dispensed instantly at your community water station — with DuitNow QR, Touch 'n Go, Alipay, and more.</p>
+      <div class="hero-btns">
+        <a href="pay.html" class="btn-primary">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2a6 6 0 100 12A6 6 0 008 2zM7 5.5h2v3H7zm0 4h2v1.5H7z" fill="white"/></svg>
+          Scan & Pay Now
+        </a>
+        <a href="#how-it-works" class="btn-secondary">Learn how it works</a>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="machine-card">
+        <div class="machine-icon">💧</div>
+        <h3>Water Vending Station</h3>
+        <p>Fresh purified drinking water on demand. From RM1 per litre.</p>
+        <div class="payment-badges">
+          <span class="payment-badge">DuitNow QR</span>
+          <span class="payment-badge">Touch 'n Go</span>
+          <span class="payment-badge">Alipay</span>
+          <span class="payment-badge">FPX</span>
+          <span class="payment-badge">Visa / MC</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="stats">
+  <div class="stats-inner">
+    <div class="stat"><div class="stat-num">100%</div><div class="stat-label">Cashless payment</div></div>
+    <div class="stat"><div class="stat-num">24/7</div><div class="stat-label">Always available</div></div>
+    <div class="stat"><div class="stat-num">RM1</div><div class="stat-label">From per litre</div></div>
+    <div class="stat"><div class="stat-num">5+</div><div class="stat-label">Payment methods</div></div>
+  </div>
+</div>
+
+<section class="section" id="how-it-works">
+  <div class="section-inner">
+    <div class="section-tag">Simple process</div>
+    <div class="section-title">Ready in 4 steps</div>
+    <p class="section-sub">No app to download, no account to create. Just scan and go.</p>
+    <div class="steps-grid">
+      <div class="step-card" data-num="1">
+        <div class="step-icon">📱</div>
+        <h4>Scan the QR code</h4>
+        <p>Use your phone camera to scan the QR code displayed on the water machine.</p>
+      </div>
+      <div class="step-card" data-num="2">
+        <div class="step-icon">💰</div>
+        <h4>Choose your amount</h4>
+        <p>Select how much water you want — RM1, RM2, or RM5. Pick your preferred payment method.</p>
+      </div>
+      <div class="step-card" data-num="3">
+        <div class="step-icon">✅</div>
+        <h4>Pay securely</h4>
+        <p>Complete payment via DuitNow QR, Touch 'n Go, Alipay, FPX, or bank card. Encrypted and secure.</p>
+      </div>
+      <div class="step-card" data-num="4">
+        <div class="step-icon">🚿</div>
+        <h4>Collect your water</h4>
+        <p>The machine dispenses the correct amount automatically within seconds. No waiting, no human needed.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section why">
+  <div class="section-inner">
+    <div class="section-tag">Why choose us</div>
+    <div class="section-title">Water the way it should be</div>
+    <div class="features-grid">
+      <div class="feature">
+        <div class="feature-icon">🛡️</div>
+        <h4>Safe & purified</h4>
+        <p>Multi-stage filtration removes impurities, bacteria, and chlorine. Regular maintenance and water quality checks.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">💸</div>
+        <h4>Affordable pricing</h4>
+        <p>Purified drinking water from just RM1 per litre — far cheaper than bottled water, and better for the environment.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">🔒</div>
+        <h4>Secure payments</h4>
+        <p>All transactions are processed through Fiuu, a licensed Malaysian payment gateway. Your financial data is never stored by us.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">⚡</div>
+        <h4>Instant dispensing</h4>
+        <p>Payment is confirmed in seconds and the machine starts dispensing immediately. No delays, no manual steps.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">🌿</div>
+        <h4>Eco-friendly</h4>
+        <p>Bring your own container. Reduce single-use plastic bottle waste while saving money on clean drinking water.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">📞</div>
+        <h4>Customer support</h4>
+        <p>Problems? Our team responds promptly. Automated refunds for any payment issues — no questions asked.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section payments-section">
+  <div class="section-inner">
+    <div class="section-tag" style="color: rgba(255,255,255,0.5);">Payments</div>
+    <div class="section-title">Pay your way</div>
+    <p class="section-sub">We accept all major Malaysian digital payment methods. Payments are processed securely by Fiuu (formerly Razer Merchant Services), a Bank Negara Malaysia licensed payment service provider.</p>
+    <div class="payment-methods">
+      <div class="pm"><div class="pm-icon">🏦</div><div class="pm-name">DuitNow QR</div><div class="pm-sub">Instant transfer</div></div>
+      <div class="pm"><div class="pm-icon">📱</div><div class="pm-name">Touch 'n Go</div><div class="pm-sub">eWallet</div></div>
+      <div class="pm"><div class="pm-icon">🔵</div><div class="pm-name">Alipay</div><div class="pm-sub">eWallet</div></div>
+      <div class="pm"><div class="pm-icon">🌐</div><div class="pm-name">FPX</div><div class="pm-sub">Online banking</div></div>
+      <div class="pm"><div class="pm-icon">💳</div><div class="pm-name">Visa / Mastercard</div><div class="pm-sub">Debit & credit</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="about">
+  <div class="section-inner">
+    <div class="about-grid">
+      <div class="about-text">
+        <div class="section-tag">About us</div>
+        <div class="section-title">Bringing clean water closer to communities</div>
+        <p>CHEAH ZI KANG operates community water vending machines across Malaysia, providing affordable access to purified drinking water. We believe everyone deserves clean water at a fair price.</p>
+        <p>Our machines use multi-stage filtration technology and are regularly serviced and tested. All payments are handled through a licensed and regulated payment gateway — no cash, no hassle.</p>
+        <p>We are registered under the Companies Commission of Malaysia (SSM) and operate in full compliance with local regulations.</p>
+      </div>
+      <div>
+        <div class="info-list">
+          <div class="info-item">
+            <div class="info-item-icon">🏢</div>
+            <div class="info-item-text">
+              <strong>Business name</strong>
+              <span>CHEAH ZI KANG (Registration No: 202603101298 (003842610-M))</span>
+            </div>
+          </div>
+          <div class="info-item">
+            <div class="info-item-icon">📍</div>
+            <div class="info-item-text">
+              <strong>Registered address</strong>
+              <span>33-6-1 LEISURE BAY CONDO JALAN TANJUNG TOKONG 10470 GEORGETOWN PULAU PINANG, Malaysia</span>
+            </div>
+          </div>
+          <div class="info-item">
+            <div class="info-item-icon">📧</div>
+            <div class="info-item-text">
+              <strong>Email</strong>
+              <span>diair.my@gmail.com</span>
+            </div>
+          </div>
+          <div class="info-item">
+            <div class="info-item-icon">📞</div>
+            <div class="info-item-text">
+              <strong>Phone / WhatsApp</strong>
+              <span>+60122773093</span>
+            </div>
+          </div>
+          <div class="info-item">
+            <div class="info-item-icon">⏰</div>
+            <div class="info-item-text">
+              <strong>Support hours</strong>
+              <span>Monday – Saturday, 9am – 6pm</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-section">
+  <h2>Ready to get started?</h2>
+  <p>Find a machine near you and get pure water in under 30 seconds.</p>
+  <a href="pay.html" class="btn-white">Scan & Pay Now →</a>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="/" class="logo" style="color: white;">
+          <div class="logo-drop"><svg viewBox="0 0 16 16" fill="white"><path d="M8 1C8 1 3 6.5 3 10a5 5 0 0010 0C13 6.5 8 1 8 1z"/></svg></div>
+          CHEAH ZI KANG
+        </a>
+        <p>Affordable purified water on demand, powered by cashless payments. Serving communities across Malaysia.</p>
+      </div>
+      <div class="footer-col">
+        <h5>Company</h5>
+        <ul>
+          <li><a href="#about">About us</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Legal</h5>
+        <ul>
+          <li><a href="terms.html">Terms & Conditions</a></li>
+          <li><a href="privacy.html">Privacy Policy</a></li>
+          <li><a href="refund.html">Refund Policy</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Support</h5>
+        <ul>
+          <li><a href="contact.html">Get help</a></li>
+          <li><a href="refund.html">Request refund</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2025 CHEAH ZI KANG. All rights reserved. Registered in Malaysia.</p>
+      <p>Payments processed by <a href="https://www.fiuu.com" target="_blank">Fiuu</a> (formerly Razer Merchant Services) — licensed by Bank Negara Malaysia.</p>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

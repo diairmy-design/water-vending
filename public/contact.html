@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact Us — CHEAH ZI KANG</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#0d2136;--mid:#3a6680;--accent:#0ea5e9;--accent-dark:#0369a1;--pale:#e8f4fb;--border:#d1e9f5;--grey:#f7fafc}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Outfit',sans-serif;color:var(--ink);background:#fff}
+nav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,0.94);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0 5vw;display:flex;align-items:center;justify-content:space-between;height:64px}
+.logo{font-size:18px;font-weight:700;color:var(--ink);text-decoration:none;display:flex;align-items:center;gap:10px}
+.logo-drop{width:30px;height:30px;background:var(--accent);border-radius:50%;display:flex;align-items:center;justify-content:center}
+.logo-drop svg{width:14px;height:14px}
+nav ul{list-style:none;display:flex;gap:2rem}
+nav ul li a{font-size:14px;font-weight:500;color:var(--mid);text-decoration:none}
+nav ul li a:hover{color:var(--accent)}
+.hero{background:linear-gradient(135deg,#f0f9ff,#e0f2fe);padding:64px 5vw 48px;text-align:center}
+.hero h1{font-size:clamp(28px,4vw,42px);font-weight:700;color:var(--ink);margin-bottom:10px}
+.hero p{font-size:15px;color:var(--mid)}
+.contact-wrap{max-width:900px;margin:0 auto;padding:56px 5vw 80px;display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start}
+.contact-info h2{font-size:22px;font-weight:700;color:var(--ink);margin-bottom:8px}
+.contact-info p{font-size:15px;color:var(--mid);line-height:1.7;margin-bottom:32px}
+.info-cards{display:flex;flex-direction:column;gap:14px}
+.info-card{display:flex;align-items:flex-start;gap:14px;padding:18px 18px;background:var(--grey);border:1px solid var(--border);border-radius:12px}
+.info-card-icon{width:40px;height:40px;background:var(--pale);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+.info-card-body strong{display:block;font-size:14px;font-weight:700;color:var(--ink);margin-bottom:4px}
+.info-card-body a,.info-card-body span{display:block;font-size:14px;color:var(--mid);text-decoration:none;line-height:1.5}
+.info-card-body a:hover{color:var(--accent)}
+.hours-row{display:flex;justify-content:space-between;font-size:13px;color:var(--mid);padding:5px 0;border-bottom:1px solid var(--border)}
+.hours-row:last-child{border-bottom:none}
+.form-card{background:white;border:1px solid var(--border);border-radius:16px;padding:32px 28px;box-shadow:0 4px 24px rgba(14,165,233,0.07)}
+.form-card h2{font-size:20px;font-weight:700;color:var(--ink);margin-bottom:6px}
+.form-card p{font-size:14px;color:var(--mid);margin-bottom:24px}
+.field{margin-bottom:18px}
+.field label{display:block;font-size:13px;font-weight:600;color:var(--ink);margin-bottom:6px}
+.field input,.field select,.field textarea{width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:8px;font-size:14px;font-family:'Outfit',sans-serif;color:var(--ink);background:white;outline:none;transition:border-color .2s}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--accent)}
+.field textarea{resize:vertical;min-height:120px}
+.submit-btn{width:100%;padding:14px;background:var(--accent);color:white;border:none;border-radius:10px;font-size:16px;font-weight:700;font-family:'Outfit',sans-serif;cursor:pointer;transition:background .2s}
+.submit-btn:hover{background:var(--accent-dark)}
+.success-msg{display:none;background:#dcfce7;border:1px solid #86efac;color:#15803d;padding:14px 18px;border-radius:10px;font-size:14px;margin-top:14px;text-align:center}
+footer{background:#07182a;padding:32px 5vw;text-align:center}
+footer p{font-size:13px;color:rgba(255,255,255,0.35)}
+footer a{color:rgba(255,255,255,0.35);text-decoration:none;margin:0 8px}
+footer a:hover{color:var(--accent)}
+@media(max-width:768px){nav ul{display:none}.contact-wrap{grid-template-columns:1fr;gap:32px}}
+</style>
+</head>
+<body>
+<nav>
+  <a href="/" class="logo">
+    <div class="logo-drop"><svg viewBox="0 0 16 16" fill="white"><path d="M8 1C8 1 3 6.5 3 10a5 5 0 0010 0C13 6.5 8 1 8 1z"/></svg></div>
+    CHEAH ZI KANG
+  </a>
+  <ul>
+    <li><a href="/">Home</a></li>
+    <li><a href="refund.html">Refund Policy</a></li>
+    <li><a href="terms.html">Terms</a></li>
+  </ul>
+</nav>
+
+<div class="hero">
+  <h1>Contact us</h1>
+  <p>We respond within 1 business day. For urgent matters, WhatsApp us directly.</p>
+</div>
+
+<div class="contact-wrap">
+  <div class="contact-info">
+    <h2>Get in touch</h2>
+    <p>Have a question, issue with a machine, or need a refund? We're here to help.</p>
+
+    <div class="info-cards">
+      <div class="info-card">
+        <div class="info-card-icon">📧</div>
+        <div class="info-card-body">
+          <strong>Email</strong>
+          <a href="mailto:diair.my@gmail.com">diair.my@gmail.com</a>
+          <span style="font-size:12px;margin-top:2px">Response within 1 business day</span>
+        </div>
+      </div>
+      <div class="info-card">
+        <div class="info-card-icon">📱</div>
+        <div class="info-card-body">
+          <strong>WhatsApp / Phone</strong>
+          <a href="https://wa.me/qr/DOGJZSGV4SHPE">+60122773093</a>
+          <span style="font-size:12px;margin-top:2px">Monday – Saturday, 9am – 6pm</span>
+        </div>
+      </div>
+      <div class="info-card">
+        <div class="info-card-icon">🏢</div>
+        <div class="info-card-body">
+          <strong>Registered address</strong>
+          <span>33-6-1 LEISURE BAY CONDO JALAN TANJUNG TOKONG 10470 GEORGETOWN PULAU PINANG</span>
+          <span>Malaysia</span>
+        </div>
+      </div>
+      <div class="info-card">
+        <div class="info-card-icon">📋</div>
+        <div class="info-card-body">
+          <strong>SSM Registration</strong>
+          <span>[YOUR SSM REGISTRATION NUMBER]</span>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top:28px">
+      <div style="font-size:13px;font-weight:700;color:var(--ink);margin-bottom:10px">Support hours</div>
+      <div class="hours-row"><span>Monday – Friday</span><span>9:00am – 6:00pm</span></div>
+      <div class="hours-row"><span>Saturday</span><span>9:00am – 1:00pm</span></div>
+      <div class="hours-row"><span>Sunday & Public Holidays</span><span>Closed</span></div>
+    </div>
+  </div>
+
+  <div class="form-card">
+    <h2>Send us a message</h2>
+    <p>Fill in the form and we'll get back to you as soon as possible.</p>
+    <div id="contact-form">
+      <div class="field">
+        <label for="name">Your name</label>
+        <input type="text" id="name" placeholder="Ahmad bin Abdullah">
+      </div>
+      <div class="field">
+        <label for="email">Email address</label>
+        <input type="email" id="email" placeholder="you@example.com">
+      </div>
+      <div class="field">
+        <label for="subject">What's this about?</label>
+        <select id="subject">
+          <option value="">Select a topic...</option>
+          <option>Refund request</option>
+          <option>Machine not dispensing water</option>
+          <option>Payment issue</option>
+          <option>Water quality concern</option>
+          <option>General enquiry</option>
+          <option>Other</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="txn">Transaction reference (if applicable)</label>
+        <input type="text" id="txn" placeholder="e.g. WVM1714123456789">
+      </div>
+      <div class="field">
+        <label for="message">Message</label>
+        <textarea id="message" placeholder="Please describe your issue or question in detail..."></textarea>
+      </div>
+      <button class="submit-btn" onclick="submitForm()">Send message</button>
+      <div class="success-msg" id="success-msg">
+        ✓ Message received! We'll get back to you within 1 business day.
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <p>
+    &copy; 2025 CHEAH ZI KANG &nbsp;|&nbsp;
+    <a href="/">Home</a>
+    <a href="terms.html">Terms & Conditions</a>
+    <a href="privacy.html">Privacy Policy</a>
+    <a href="refund.html">Refund Policy</a>
+  </p>
+</footer>
+
+<script>
+function submitForm() {
+  var name = document.getElementById('name').value.trim();
+  var email = document.getElementById('email').value.trim();
+  var message = document.getElementById('message').value.trim();
+  if (!name || !email || !message) {
+    alert('Please fill in your name, email, and message.');
+    return;
+  }
+  // In production, replace this with a Formspree or Netlify Forms endpoint
+  // For now, opens mailto as a fallback
+  var subject = encodeURIComponent(document.getElementById('subject').value || 'Website enquiry');
+  var body = encodeURIComponent(
+    'Name: ' + name + '\n' +
+    'Email: ' + email + '\n' +
+    'Transaction ref: ' + (document.getElementById('txn').value || 'N/A') + '\n\n' +
+    message
+  );
+  window.location.href = 'mailto:diair.my@gmail.com?subject=' + subject + '&body=' + body;
+  document.getElementById('success-msg').style.display = 'block';
+}
+</script>
+</body>
+</html>
