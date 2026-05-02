@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#0ea5e9">
+<title>DiAir — Bayar Air</title>
+<style>
+:root {
+  --blue: #0ea5e9;
+  --blue-dark: #0369a1;
+  --blue-light: #e0f2fe;
+  --ink: #0c4a6e;
+  --mid: #64748b;
+  --light: #f8fafc;
+  --border: #cbd5e1;
+  --white: #ffffff;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+html { height: 100%; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: linear-gradient(160deg, #e0f2fe 0%, #bae6fd 100%);
+  min-height: 100vh;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 20px 16px 40px;
+}
+
+.card {
+  background: var(--white);
+  border-radius: 28px;
+  width: 100%;
+  max-width: 390px;
+  box-shadow: 0 20px 60px rgba(14,165,233,0.18), 0 4px 16px rgba(0,0,0,0.06);
+  overflow: hidden;
+}
+
+.header {
+  background: linear-gradient(135deg, #0ea5e9, #0284c7);
+  padding: 22px 24px 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.logo-drop {
+  width: 42px; height: 42px;
+  background: rgba(255,255,255,0.2);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  cursor: pointer;
+  user-select: none;
+}
+.logo-drop svg { width: 20px; height: 20px; }
+.header-title { font-size: 20px; font-weight: 800; color: white; letter-spacing: -0.02em; }
+.header-sub { font-size: 12px; color: rgba(255,255,255,0.75); margin-top: 1px; }
+
+.body { padding: 24px 20px 28px; }
+
+.quick-label { font-size: 11px; font-weight: 700; color: var(--mid); text-transform: uppercase; letter-spacing: .07em; margin-bottom: 10px; }
+
+.quick-row { display: flex; gap: 7px; margin-bottom: 20px; flex-wrap: wrap; }
+.qbtn {
+  flex: 1; min-width: 56px;
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  background: var(--light);
+  padding: 8px 4px;
+  text-align: center;
+  cursor: pointer;
+  transition: all .15s;
+  touch-action: manipulation;
+}
+.qbtn:active { transform: scale(0.94); }
+.qbtn.on { border-color: var(--blue); background: var(--blue-light); }
+.qbtn .qv { font-size: 13px; font-weight: 800; color: var(--ink); }
+.qbtn.on .qv { color: var(--blue-dark); }
+.qbtn .qp { font-size: 10px; color: var(--mid); margin-top: 2px; }
+.qbtn.on .qp { color: var(--blue); }
+
+.stepper-wrap {
+  display: flex; align-items: center; gap: 12px;
+  background: var(--light); border: 1.5px solid var(--border);
+  border-radius: 16px; padding: 14px 16px; margin-bottom: 20px;
+}
+.sbtn {
+  width: 48px; height: 48px; flex-shrink: 0;
+  border-radius: 50%; border: 1.5px solid var(--border);
+  background: var(--white); font-size: 26px; font-weight: 300;
+  color: var(--ink); display: flex; align-items: center; justify-content: center;
+  cursor: pointer; transition: all .15s; touch-action: manipulation;
+  user-select: none; line-height: 1;
+}
+.sbtn:active { background: var(--blue-light); border-color: var(--blue); transform: scale(0.9); }
+.sbtn:disabled { opacity: 0.25; cursor: default; transform: none; }
+.amount-display { flex: 1; text-align: center; }
+.amount-big { font-size: 46px; font-weight: 900; color: var(--ink); line-height: 1; letter-spacing: -0.03em; }
+.amount-unit { font-size: 16px; font-weight: 500; color: var(--mid); }
+
+.price-box {
+  border-radius: 14px;
+  background: linear-gradient(135deg, #e0f2fe, #bae6fd);
+  border: 1px solid #7dd3fc;
+  padding: 16px 18px;
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 22px;
+}
+.price-desc { font-size: 14px; color: var(--ink); font-weight: 600; }
+.price-sub { font-size: 12px; color: var(--mid); margin-top: 2px; }
+.price-amount { font-size: 38px; font-weight: 900; color: var(--blue-dark); letter-spacing: -0.03em; line-height: 1; }
+.price-rm { font-size: 16px; font-weight: 700; margin-right: 1px; }
+
+.pay-btn {
+  width: 100%; padding: 20px 16px;
+  background: var(--blue); color: white; border: none;
+  border-radius: 16px; font-size: 19px; font-weight: 800;
+  font-family: inherit; cursor: pointer; letter-spacing: -0.01em;
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+  transition: background .15s, transform .1s, box-shadow .15s;
+  box-shadow: 0 6px 20px rgba(14,165,233,0.35);
+  touch-action: manipulation; -webkit-tap-highlight-color: transparent;
+  position: relative; overflow: hidden;
+}
+.pay-btn::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(255,255,255,0.1) 0%, transparent 100%); border-radius: inherit; }
+.pay-btn:hover { background: var(--blue-dark); }
+.pay-btn:active { transform: scale(0.98); }
+.pay-btn:disabled { background: #94a3b8; box-shadow: none; cursor: not-allowed; transform: none; }
+.pay-btn.loading { pointer-events: none; }
+
+.spinner { width: 20px; height: 20px; border: 2.5px solid rgba(255,255,255,0.35); border-top-color: white; border-radius: 50%; animation: spin .65s linear infinite; display: none; }
+.pay-btn.loading .spinner { display: block; }
+.pay-btn.loading .btn-label { display: none; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.methods { display: flex; justify-content: center; gap: 6px; margin-top: 14px; flex-wrap: wrap; }
+.mbadge { font-size: 10px; font-weight: 600; color: var(--mid); padding: 4px 9px; border: 1px solid #e2e8f0; border-radius: 20px; background: var(--light); }
+
+.err { display: none; background: #fef2f2; border: 1px solid #fecaca; color: #dc2626; padding: 12px 14px; border-radius: 10px; font-size: 13px; margin-top: 12px; text-align: center; line-height: 1.5; }
+.rate-note { text-align: center; font-size: 11px; color: #94a3b8; margin-top: 10px; }
+
+/* ── Debug panel ── */
+.debug-badge { display: none; text-align: center; margin-top: 14px; }
+.debug-badge span { font-size: 10px; background: #fef3c7; color: #92400e; padding: 3px 10px; border-radius: 20px; border: 1px solid #fcd34d; cursor: pointer; }
+
+.debug-panel {
+  display: none;
+  margin-top: 16px;
+  background: #0f172a;
+  border-radius: 12px;
+  padding: 14px 14px;
+  font-family: 'SF Mono', 'Fira Code', monospace;
+  font-size: 11px;
+  color: #94a3b8;
+  line-height: 1.8;
+  word-break: break-all;
+}
+.debug-panel .dk { color: #7dd3fc; }
+.debug-panel .dv { color: #86efac; }
+.debug-panel .dw { color: #fca5a5; }
+.debug-title { color: #f1f5f9; font-size: 11px; font-weight: 700; margin-bottom: 8px; letter-spacing: .05em; }
+.debug-submit {
+  width: 100%; margin-top: 10px; padding: 10px;
+  background: #16a34a; color: white; border: none;
+  border-radius: 8px; font-size: 13px; font-weight: 700;
+  font-family: inherit; cursor: pointer;
+}
+.debug-submit:active { opacity: 0.85; }
+</style>
+</head>
+<body>
+
+<div class="card">
+  <div class="header">
+    <div class="logo-drop" id="logoDrop" onclick="tapLogo()">
+      <svg viewBox="0 0 20 20" fill="white"><path d="M10 2C10 2 4.5 8 4.5 12a5.5 5.5 0 0011 0C15.5 8 10 2 10 2z"/></svg>
+    </div>
+    <div>
+      <div class="header-title">DiAir</div>
+      <div class="header-sub">Air bersih segar • Scan &amp; bayar</div>
+    </div>
+  </div>
+
+  <div class="body">
+    <div class="quick-label">Pilih jumlah</div>
+    <div class="quick-row" id="quickRow"></div>
+
+    <div class="stepper-wrap">
+      <button class="sbtn" id="btnMinus" onclick="step(-1)" aria-label="Kurang">−</button>
+      <div class="amount-display">
+        <div id="amountBig" class="amount-big">1</div>
+        <div id="amountUnit" class="amount-unit">L</div>
+      </div>
+      <button class="sbtn" id="btnPlus" onclick="step(1)" aria-label="Tambah">+</button>
+    </div>
+
+    <div class="price-box">
+      <div>
+        <div class="price-desc" id="priceDesc">1 liter air bersih</div>
+        <div class="price-sub">RM1.00 / liter</div>
+      </div>
+      <div class="price-amount"><span class="price-rm">RM</span><span id="priceNum">1.00</span></div>
+    </div>
+
+    <button class="pay-btn" id="payBtn" onclick="pay()" type="button">
+      <div class="spinner" id="spinner"></div>
+      <span class="btn-label" id="btnLabel">💧 Bayar RM1.00</span>
+    </button>
+
+    <div class="methods">
+      <span class="mbadge">DuitNow QR</span>
+      <span class="mbadge">Touch 'n Go</span>
+      <span class="mbadge">Alipay</span>
+      <span class="mbadge">FPX</span>
+      <span class="mbadge">Visa / MC</span>
+    </div>
+
+    <div class="err" id="errMsg"></div>
+    <div class="rate-note">RM1.00 / liter &nbsp;·&nbsp; Min 250ml &nbsp;·&nbsp; Maks 50L</div>
+
+    <!-- Debug panel (hidden until logo tapped 5x) -->
+    <div class="debug-badge" id="debugBadge">
+      <span onclick="toggleDebug()">🔧 DEBUG MODE — tap to toggle panel</span>
+    </div>
+    <div class="debug-panel" id="debugPanel">
+      <div class="debug-title">FIELDS BEING SENT TO FIUU</div>
+      <div id="debugContent">Tap "DEBUG: Preview &amp; Submit" to check values.</div>
+      <button class="debug-submit" id="debugSubmit" onclick="debugPay()" style="display:none">DEBUG: Preview &amp; Submit to Fiuu</button>
+    </div>
+  </div>
+</div>
+
+<!-- Pre-built Fiuu form — static hidden inputs -->
+<form id="payForm" method="POST" action="https://pay.fiuu.com/index.php/api/entry" style="display:none">
+  <input type="hidden" name="MerchantCode"  id="fMerchantCode"  value="">
+  <input type="hidden" name="PaymentId"     id="fPaymentId"     value="">
+  <input type="hidden" name="RefNo"         id="fRefNo"         value="">
+  <input type="hidden" name="Amount"        id="fAmount"        value="">
+  <input type="hidden" name="Currency"      id="fCurrency"      value="MYR">
+  <input type="hidden" name="ProdDesc"      id="fProdDesc"      value="">
+  <input type="hidden" name="UserName"      id="fUserName"      value="Pelanggan">
+  <input type="hidden" name="UserEmail"     id="fUserEmail"     value="customer@diair.my">
+  <input type="hidden" name="UserContact"   id="fUserContact"   value="60122773093">
+  <input type="hidden" name="Remark"        id="fRemark"        value="">
+  <input type="hidden" name="Lang"          id="fLang"          value="UTF-8">
+  <input type="hidden" name="SignatureType" id="fSigType"       value="MD5">
+  <input type="hidden" name="Signature"     id="fSignature"     value="">
+  <input type="hidden" name="ResponseURL"   id="fResponseURL"   value="https://diairmy.netlify.app/thankyou.html">
+  <input type="hidden" name="BackendURL"    id="fBackendURL"    value="https://diairmy.netlify.app/.netlify/functions/payment-webhook">
+</form>
+
+<script>
+var RATE = 1.00, MIN = 0.25, MAX = 50, STEP = 0.25;
+var CREATE_ORDER_URL = '/.netlify/functions/create-order';
+var QUICK = [0.25, 0.5, 1, 2, 5];
+var litres = 1;
+var debugUnlocked = false;
+var tapCount = 0;
+var tapTimer = null;
+var lastOrderData = null;
+
+function fmtVol(n) { return n < 1 ? Math.round(n * 1000) + 'ml' : n + 'L'; }
+function fmtRM(n) { return (n * RATE).toFixed(2); }
+
+function setLitres(n) {
+  n = Math.round(n / STEP) * STEP;
+  n = Math.max(MIN, Math.min(MAX, +n.toFixed(2)));
+  litres = n;
+  if (n < 1) {
+    document.getElementById('amountBig').textContent = Math.round(n * 1000);
+    document.getElementById('amountUnit').textContent = 'ml';
+  } else {
+    document.getElementById('amountBig').textContent = n % 1 === 0 ? n : (n * 1000);
+    document.getElementById('amountUnit').textContent = n % 1 === 0 ? 'L' : 'ml';
+  }
+  var rm = fmtRM(n);
+  var volLabel = n < 1 ? Math.round(n * 1000) + 'ml' : n + ' liter';
+  document.getElementById('priceDesc').textContent = volLabel + ' air bersih';
+  document.getElementById('priceNum').textContent = rm;
+  document.getElementById('btnLabel').textContent = '💧 Bayar RM' + rm;
+  document.getElementById('btnMinus').disabled = n <= MIN;
+  document.getElementById('btnPlus').disabled  = n >= MAX;
+  document.querySelectorAll('.qbtn').forEach(function(b, i) { b.classList.toggle('on', QUICK[i] === n); });
+  hideErr();
+}
+
+function step(d) { setLitres(litres + d * STEP); }
+
+function buildQuick() {
+  var row = document.getElementById('quickRow');
+  QUICK.forEach(function(l) {
+    var b = document.createElement('div');
+    b.className = 'qbtn' + (l === litres ? ' on' : '');
+    b.innerHTML = '<div class="qv">' + fmtVol(l) + '</div><div class="qp">RM' + fmtRM(l) + '</div>';
+    b.addEventListener('click', function() { setLitres(l); });
+    row.appendChild(b);
+  });
+}
+
+function showErr(msg) { var e = document.getElementById('errMsg'); e.textContent = msg; e.style.display = 'block'; }
+function hideErr() { document.getElementById('errMsg').style.display = 'none'; }
+
+function setLoading(on) {
+  var btn = document.getElementById('payBtn');
+  btn.disabled = on;
+  btn.classList.toggle('loading', on);
+  document.getElementById('spinner').style.display = on ? 'block' : 'none';
+}
+
+function fillForm(data) {
+  document.getElementById('fMerchantCode').value = data.merchantCode;
+  document.getElementById('fRefNo').value        = data.orderId;
+  document.getElementById('fAmount').value       = data.amount;
+  document.getElementById('fProdDesc').value     = litres + ' liter air bersih DiAir';
+  document.getElementById('fRemark').value       = fmtVol(litres);
+  document.getElementById('fSignature').value    = data.signature;
+}
+
+async function fetchOrder() {
+  var amount = fmtRM(litres);
+  var res = await fetch(CREATE_ORDER_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ amount: amount })
+  });
+  if (!res.ok) throw new Error('Server error ' + res.status);
+  var data = await res.json();
+  if (!data.orderId || !data.signature) throw new Error('Respons tidak sah');
+  return data;
+}
+
+async function pay() {
+  hideErr();
+  setLoading(true);
+  try {
+    var data = await fetchOrder();
+    fillForm(data);
+    document.getElementById('payForm').submit();
+  } catch (err) {
+    setLoading(false);
+    showErr('Ralat: ' + err.message);
+  }
+}
+
+/* ── Debug mode ── */
+function tapLogo() {
+  if (tapTimer) clearTimeout(tapTimer);
+  tapCount++;
+  if (tapCount >= 5) {
+    tapCount = 0;
+    debugUnlocked = true;
+    document.getElementById('debugBadge').style.display = 'block';
+    document.getElementById('debugSubmit').style.display = 'block';
+    document.getElementById('debugPanel').style.display = 'block';
+  }
+  tapTimer = setTimeout(function() { tapCount = 0; }, 2000);
+}
+
+function toggleDebug() {
+  var p = document.getElementById('debugPanel');
+  p.style.display = p.style.display === 'none' ? 'block' : 'none';
+}
+
+function renderDebug(data, formFields) {
+  var rows = [
+    ['MerchantCode',  formFields.MerchantCode,  ''],
+    ['RefNo',         formFields.RefNo,          ''],
+    ['Amount',        formFields.Amount,         ''],
+    ['Currency',      'MYR',                     ''],
+    ['ProdDesc',      formFields.ProdDesc,       ''],
+    ['UserEmail',     formFields.UserEmail,      ''],
+    ['UserContact',   formFields.UserContact,    ''],
+    ['SignatureType', 'MD5',                     ''],
+    ['Signature',     formFields.Signature,      ''],
+    ['ResponseURL',   formFields.ResponseURL,    ''],
+    ['BackendURL',    formFields.BackendURL,      ''],
+  ];
+  var html = rows.map(function(r) {
+    var warn = r[2] ? ' <span class="dw">⚠ ' + r[2] + '</span>' : '';
+    return '<div><span class="dk">' + r[0] + '</span>: <span class="dv">' + (r[1] || '<span class="dw">EMPTY!</span>') + '</span>' + warn + '</div>';
+  }).join('');
+
+  html += '<br><div style="color:#fbbf24">Netlify function responded OK ✓</div>';
+  html += '<div style="color:#fbbf24">Signature: ' + (data.signature ? data.signature.substring(0,8) + '...' : 'MISSING') + '</div>';
+
+  document.getElementById('debugContent').innerHTML = html;
+}
+
+async function debugPay() {
+  document.getElementById('debugContent').innerHTML = '<span style="color:#fbbf24">Fetching signature from Netlify...</span>';
+  try {
+    var data = await fetchOrder();
+    fillForm(data);
+
+    var formFields = {
+      MerchantCode: document.getElementById('fMerchantCode').value,
+      RefNo:        document.getElementById('fRefNo').value,
+      Amount:       document.getElementById('fAmount').value,
+      ProdDesc:     document.getElementById('fProdDesc').value,
+      UserEmail:    document.getElementById('fUserEmail').value,
+      UserContact:  document.getElementById('fUserContact').value,
+      Signature:    document.getElementById('fSignature').value,
+      ResponseURL:  document.getElementById('fResponseURL').value,
+      BackendURL:   document.getElementById('fBackendURL').value,
+    };
+
+    renderDebug(data, formFields);
+
+    // Give user 5 seconds to read, then submit
+    var countdown = 5;
+    var btn = document.getElementById('debugSubmit');
+    var orig = btn.textContent;
+    var iv = setInterval(function() {
+      btn.textContent = 'Submitting to Fiuu in ' + countdown + 's...';
+      countdown--;
+      if (countdown < 0) {
+        clearInterval(iv);
+        btn.textContent = orig;
+        document.getElementById('payForm').submit();
+      }
+    }, 1000);
+
+  } catch (err) {
+    document.getElementById('debugContent').innerHTML =
+      '<span class="dw">ERROR: ' + err.message + '</span><br>' +
+      '<br>This means your Netlify function is not responding.<br>' +
+      'Check: is FIUU_MERCHANT_CODE and FIUU_VERIFY_KEY set in Netlify?';
+  }
+}
+
+buildQuick();
+setLitres(1);
+</script>
+</body>
+</html>
