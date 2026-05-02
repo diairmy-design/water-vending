@@ -1,36 +1,72 @@
 // netlify/functions/create-order.js
-// Called by pay.html before redirecting to Fiuu
-// Returns orderId + MD5 signature (VerifyKey never leaves the server)
+// Generates a signed Fiuu order — called by pay.html before redirecting
+// CommonJS — no imports needed, works on Netlify without esbuild
 
-import crypto from 'crypto'
+const crypto = require('crypto')
 
-export const handler = async (event) => {
+exports.handler = async function (event) {
+  // Only allow POST
   if (event.httpMethod !== 'POST') {
     return { statusCode: 405, body: 'Method Not Allowed' }
   }
 
+  // CORS headers so pay.html can call this from the browser
+  const headers = {
+    'Content-Type': 'application/json',
+    'Access-Control-Allow-Origin': '*',
+  }
+
   try {
-    const { amount } = JSON.parse(event.body)
-    const amountStr = parseFloat(amount).toFixed(2)   // e.g. "1.00"
-    const orderId   = 'WVM' + Date.now()
+    const body = JSON.parse(event.body || '{}')
+    const amount = parseFloat(body.amount)
 
-    const { FIUU_MERCHANT_CODE, FIUU_VERIFY_KEY } = process.env
+    if (!amount || isNaN(amount) || amount < 0.25) {
+      return {
+        statusCode: 400,
+        headers,
+        body: JSON.stringify({ error: 'Invalid amount' })
+      }
+    }
 
-    // Fiuu MD5 signature format: MerchantCode + RefNo + Amount + Currency + VerifyKey
-    const raw = FIUU_MERCHANT_CODE + orderId + amountStr + 'MYR' + FIUU_VERIFY_KEY
+    const amountStr = amount.toFixed(2)               // "1.00"
+    const orderId   = 'WVM' + Date.now()              // e.g. WVM1714123456789
+
+    const MERCHANT  = process.env.FIUU_MERCHANT_CODE
+    const VKEY      = process.env.FIUU_VERIFY_KEY
+
+    if (!MERCHANT || !VKEY) {
+      console.error('Missing env vars: FIUU_MERCHANT_CODE or FIUU_VERIFY_KEY')
+      return {
+        statusCode: 500,
+        headers,
+        body: JSON.stringify({ error: 'Server configuration error' })
+      }
+    }
+
+    // Fiuu hosted payment signature formula:
+    // MD5( MerchantCode + RefNo + Amount + Currency + VerifyKey )
+    const raw       = MERCHANT + orderId + amountStr + 'MYR' + VKEY
     const signature = crypto.createHash('md5').update(raw).digest('hex')
+
+    console.log('create-order OK', JSON.stringify({ orderId, amountStr }))
 
     return {
       statusCode: 200,
-      headers: { 'Content-Type': 'application/json' },
+      headers,
       body: JSON.stringify({
         orderId,
         signature,
-        amount: amountStr,
-        merchantCode: FIUU_MERCHANT_CODE
+        amount:       amountStr,
+        merchantCode: MERCHANT
       })
     }
+
   } catch (err) {
-    return { statusCode: 400, body: JSON.stringify({ error: err.message }) }
+    console.error('create-order error:', err.message)
+    return {
+      statusCode: 500,
+      headers,
+      body: JSON.stringify({ error: err.message })
+    }
   }
 }

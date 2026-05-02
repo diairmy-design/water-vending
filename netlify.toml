@@ -3,3 +3,16 @@
 
 [functions]
   directory = "netlify/functions"
+  node_bundler = "esbuild"
+
+[functions.create-order]
+  node_bundler = "esbuild"
+
+[functions.payment-webhook]
+  node_bundler = "esbuild"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
