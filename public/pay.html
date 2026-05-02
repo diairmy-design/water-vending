@@ -2,83 +2,486 @@
 <html lang="ms">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
-<title>DiAir Bersih</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#0ea5e9">
+<title>DiAir Bersih — Bayar Air</title>
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:-apple-system,sans-serif;background:#f0f9ff;
-     min-height:100vh;display:flex;align-items:center;
-     justify-content:center;padding:16px}
-.card{background:#fff;border-radius:24px;padding:28px 22px 24px;
-      max-width:340px;width:100%;text-align:center;
-      box-shadow:0 8px 32px rgba(14,165,233,0.15)}
-h1{font-size:22px;font-weight:700;color:#0c4a6e;margin-bottom:4px}
-.sub{font-size:13px;color:#64748b;margin-bottom:24px}
-.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:20px}
-.opt{border:2px solid #e0f2fe;border-radius:12px;padding:14px 6px 11px;
-     cursor:pointer;background:#f8fafc;transition:all .15s}
-.opt.sel{border-color:#0ea5e9;background:#e0f2fe}
-.rm{font-size:20px;font-weight:700;color:#0369a1}
-.lt{font-size:11px;color:#64748b;margin-top:2px}
-.lt b{color:#0ea5e9;font-weight:600}
-.cta{width:100%;padding:14px;background:#0ea5e9;color:#fff;border:none;
-     border-radius:12px;font-size:16px;font-weight:600;cursor:pointer}
-.cta:disabled{background:#cbd5e1;cursor:not-allowed}
-.methods{display:flex;justify-content:center;gap:12px;margin-top:14px;flex-wrap:wrap}
-.m{font-size:10px;color:#94a3b8;font-weight:500}
+:root {
+  --blue: #0ea5e9;
+  --blue-dark: #0369a1;
+  --blue-light: #e0f2fe;
+  --ink: #0c4a6e;
+  --mid: #475569;
+  --light: #f0f9ff;
+  --border: #bae6fd;
+  --white: #ffffff;
+  --green: #16a34a;
+  --green-bg: #f0fdf4;
+  --red: #dc2626;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+html { height: 100%; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: linear-gradient(160deg, #e0f2fe 0%, #bae6fd 100%);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+
+.card {
+  background: var(--white);
+  border-radius: 24px;
+  padding: 28px 22px 26px;
+  width: 100%;
+  max-width: 380px;
+  box-shadow: 0 12px 40px rgba(14,165,233,0.18), 0 2px 8px rgba(0,0,0,0.06);
+}
+
+/* Header */
+.header { text-align: center; margin-bottom: 24px; }
+.logo-wrap { display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 6px; }
+.logo-drop { width: 38px; height: 38px; background: var(--blue); border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+.logo-drop svg { width: 18px; height: 18px; }
+.brand { font-size: 22px; font-weight: 800; color: var(--ink); letter-spacing: -0.02em; }
+.tagline { font-size: 13px; color: var(--mid); }
+
+/* Amount section */
+.section-label {
+  font-size: 11px; font-weight: 700; letter-spacing: .08em;
+  text-transform: uppercase; color: var(--blue-dark);
+  margin-bottom: 10px;
+}
+
+/* Quick select pills */
+.quick-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  margin-bottom: 16px;
+}
+.quick-btn {
+  border: 1.5px solid var(--border);
+  border-radius: 12px;
+  padding: 10px 4px 9px;
+  background: var(--light);
+  cursor: pointer;
+  text-align: center;
+  transition: all .15s;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+.quick-btn:active { transform: scale(0.95); }
+.quick-btn.active { border-color: var(--blue); background: var(--blue-light); }
+.quick-btn .ql { font-size: 15px; font-weight: 800; color: var(--ink); line-height: 1; }
+.quick-btn .ql span { font-size: 11px; font-weight: 500; }
+.quick-btn .qp { font-size: 11px; color: var(--mid); margin-top: 3px; }
+.quick-btn.active .ql { color: var(--blue-dark); }
+.quick-btn.active .qp { color: var(--blue); }
+
+/* Custom amount stepper */
+.custom-wrap {
+  border: 1.5px solid var(--border);
+  border-radius: 14px;
+  padding: 14px 14px;
+  background: var(--light);
+  margin-bottom: 20px;
+}
+.custom-label { font-size: 12px; color: var(--mid); margin-bottom: 10px; }
+.stepper {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+.step-btn {
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  border: 1.5px solid var(--border);
+  background: var(--white);
+  font-size: 22px; font-weight: 400;
+  color: var(--ink);
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: all .15s;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+}
+.step-btn:active { background: var(--blue-light); border-color: var(--blue); transform: scale(0.92); }
+.step-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+.litre-display {
+  flex: 1;
+  text-align: center;
+  font-size: 42px;
+  font-weight: 800;
+  color: var(--ink);
+  line-height: 1;
+}
+.litre-display span { font-size: 16px; font-weight: 500; color: var(--mid); margin-left: 2px; }
+
+/* Manual input row */
+.manual-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.manual-row label { font-size: 12px; color: var(--mid); flex-shrink: 0; }
+.manual-input {
+  flex: 1;
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--ink);
+  background: var(--white);
+  text-align: center;
+  outline: none;
+  -webkit-appearance: none;
+  appearance: none;
+}
+.manual-input:focus { border-color: var(--blue); }
+.manual-unit { font-size: 13px; color: var(--mid); flex-shrink: 0; }
+
+/* Price display */
+.price-display {
+  background: var(--blue-light);
+  border: 1.5px solid var(--border);
+  border-radius: 14px;
+  padding: 14px 16px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.price-left { }
+.price-label { font-size: 12px; color: var(--blue-dark); font-weight: 500; }
+.price-litres { font-size: 22px; font-weight: 800; color: var(--ink); line-height: 1.1; margin-top: 2px; }
+.price-litres span { font-size: 13px; font-weight: 500; color: var(--mid); }
+.price-right { text-align: right; }
+.price-rate { font-size: 11px; color: var(--blue-dark); }
+.price-amount { font-size: 36px; font-weight: 900; color: var(--blue-dark); line-height: 1; }
+.price-amount span { font-size: 18px; font-weight: 600; }
+
+/* Pay button */
+.pay-btn {
+  width: 100%;
+  padding: 16px;
+  background: var(--blue);
+  color: var(--white);
+  border: none;
+  border-radius: 14px;
+  font-size: 17px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background .15s, transform .1s;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  position: relative;
+  overflow: hidden;
+  letter-spacing: .01em;
+}
+.pay-btn:hover { background: var(--blue-dark); }
+.pay-btn:active { transform: scale(0.98); }
+.pay-btn:disabled { background: #94a3b8; cursor: not-allowed; transform: none; }
+.pay-btn.loading { pointer-events: none; }
+.pay-btn .btn-text { display: flex; align-items: center; justify-content: center; gap: 8px; }
+.spinner {
+  width: 18px; height: 18px;
+  border: 2px solid rgba(255,255,255,0.4);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  display: none;
+}
+.pay-btn.loading .spinner { display: block; }
+.pay-btn.loading .btn-label { display: none; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* Payment methods */
+.methods {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 14px;
+  flex-wrap: wrap;
+}
+.method-badge {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--mid);
+  padding: 4px 8px;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  background: #f8fafc;
+}
+
+/* Error message */
+.error-msg {
+  display: none;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  color: var(--red);
+  padding: 10px 14px;
+  border-radius: 10px;
+  font-size: 13px;
+  margin-top: 12px;
+  text-align: center;
+  line-height: 1.5;
+}
+
+/* Rate info */
+.rate-info {
+  text-align: center;
+  font-size: 11.5px;
+  color: #94a3b8;
+  margin-top: 12px;
+}
 </style>
 </head>
 <body>
+
 <div class="card">
-  <h1>DiAir Bersih</h1>
-  <p class="sub">Pilih jumlah &bull; bayar &bull; air terus keluar</p>
-  <div class="grid">
-    <div class="opt" onclick="pick(this,1,1)">
-      <div class="rm">RM1</div><div class="lt"><b>1</b> liter</div></div>
-    <div class="opt" onclick="pick(this,2,2)">
-      <div class="rm">RM2</div><div class="lt"><b>2</b> liter</div></div>
-    <div class="opt" onclick="pick(this,5,5)">
-      <div class="rm">RM5</div><div class="lt"><b>5</b> liter</div></div>
+  <div class="header">
+    <div class="logo-wrap">
+      <div class="logo-drop">
+        <svg viewBox="0 0 18 18" fill="white"><path d="M9 2C9 2 4 7.5 4 11a5 5 0 0010 0C14 7.5 9 2 9 2z"/></svg>
+      </div>
+      <div class="brand">DiAir</div>
+    </div>
+    <div class="tagline">Air bersih segar • Scan &amp; bayar</div>
   </div>
-  <button class="cta" id="cta" disabled onclick="pay()">Pilih jumlah dahulu</button>
+
+  <!-- Quick select -->
+  <div class="section-label">Pilih cepat</div>
+  <div class="quick-grid" id="quickGrid">
+    <!-- Populated by JS -->
+  </div>
+
+  <!-- Stepper / custom input -->
+  <div class="custom-wrap">
+    <div class="custom-label">Atau pilih sendiri 👇</div>
+    <div class="stepper">
+      <button class="step-btn" id="btnMinus" onclick="step(-1)" aria-label="Kurang">−</button>
+      <div class="litre-display" id="litreDisplay">1<span>L</span></div>
+      <button class="step-btn" id="btnPlus" onclick="step(1)" aria-label="Tambah">+</button>
+    </div>
+    <div class="manual-row">
+      <label for="manualInput">Jumlah:</label>
+      <input type="number" id="manualInput" class="manual-input" min="0.25" max="50" step="0.25" value="1" inputmode="decimal" oninput="onManualInput(this.value)">
+      <span class="manual-unit">liter</span>
+    </div>
+  </div>
+
+  <!-- Price display -->
+  <div class="price-display" id="priceDisplay">
+    <div class="price-left">
+      <div class="price-label">Anda dapat</div>
+      <div class="price-litres" id="displayLitres">1 <span>liter air bersih</span></div>
+    </div>
+    <div class="price-right">
+      <div class="price-rate">RM1 / liter</div>
+      <div class="price-amount" id="displayPrice"><span>RM</span>1.00</div>
+    </div>
+  </div>
+
+  <!-- Pay button -->
+  <button class="pay-btn" id="payBtn" onclick="pay()" type="button">
+    <div class="btn-text">
+      <div class="spinner" id="spinner"></div>
+      <span class="btn-label" id="btnLabel">Bayar RM1.00</span>
+    </div>
+  </button>
+
   <div class="methods">
-    <span class="m">DuitNow QR</span>
-    <span class="m">Touch 'n Go</span>
-    <span class="m">Alipay</span>
-    <span class="m">FPX</span>
-    <span class="m">Visa / MC</span>
+    <span class="method-badge">DuitNow QR</span>
+    <span class="method-badge">Touch 'n Go</span>
+    <span class="method-badge">Alipay</span>
+    <span class="method-badge">FPX</span>
+    <span class="method-badge">Visa / MC</span>
   </div>
+
+  <div class="error-msg" id="errorMsg"></div>
+  <div class="rate-info">Kadar: RM1.00 per liter • Min: 250ml • Maks: 50L • Langkah: 250ml</div>
 </div>
-<form id="pf" method="POST"
-  action="https://pay.fiuu.com/index.php/api/entry"
-  style="display:none"></form>
+
+<!-- Hidden Fiuu form -->
+<form id="payForm" method="POST" action="https://pay.fiuu.com/index.php/api/entry" style="display:none"></form>
+
 <script>
-var sel=null;
-var MERCHANT="cheahzikan22939";
-var RETURN="https://diairmy.netlify.app/thankyou.html";
-var BACKEND="https://diairmy.netlify.app/.netlify/functions/payment-webhook";
-function pick(el,a,l){
-  document.querySelectorAll(".opt").forEach(o=>o.classList.remove("sel"));
-  el.classList.add("sel");sel={a,l};
-  var c=document.getElementById("cta");
-  c.disabled=false;c.textContent="Bayar RM"+a+" — "+l+" Liter";
+// ─── CONFIG ─────────────────────────────────────────────────
+var RATE_PER_LITRE = 1.00;   // RM per litre — match your Happy-ti setting
+var MIN_LITRES = 0.25;        // 250ml minimum
+var MAX_LITRES = 50;
+var STEP = 0.25;              // step in 250ml increments
+var CREATE_ORDER_URL = '/.netlify/functions/create-order';
+var RETURN_URL = 'https://diairmy.netlify.app/thankyou.html';
+// litres — values under 1 are shown as ml
+var QUICK_OPTIONS = [0.25, 0.5, 0.75, 1, 2, 3, 5, 10];
+// ────────────────────────────────────────────────────────────
+
+var currentLitres = 1;
+
+function fmt(n) {
+  return 'RM' + (n * RATE_PER_LITRE).toFixed(2);
 }
-function f(n,v){var i=document.createElement("input");
-  i.type="hidden";i.name=n;i.value=v;
-  document.getElementById("pf").appendChild(i);}
-function pay(){
-  if(!sel)return;
-  var id="WVM"+Date.now();
-  document.getElementById("pf").innerHTML="";
-  [["MerchantCode",MERCHANT],["PaymentId",""],["RefNo",id],
-   ["Amount",sel.a.toFixed(2)],["Currency","MYR"],
-   ["ProdDesc",sel.l+" liter air bersih"],["UserName","Pelanggan"],
-   ["UserEmail","customer@diair.my"],["UserContact","0122773093"],
-   ["Remark",""],["Lang","UTF-8"],["SignatureType","MD5"],["Signature",""],
-   ["ResponseURL",RETURN],["BackendURL",BACKEND]
-  ].forEach(r=>f(r[0],r[1]));
-  document.getElementById("pf").submit();
+
+// Display as "250ml", "500ml", "750ml", "1L", "2L" etc.
+function fmtVol(n) {
+  if (n < 1) return Math.round(n * 1000) + 'ml';
+  return n % 1 === 0 ? n + 'L' : (n * 1000) + 'ml';
 }
+
+// For the big stepper display
+function fmtVolBig(n) {
+  if (n < 1) return '<span>' + Math.round(n * 1000) + '</span><span style="font-size:18px;font-weight:500;color:var(--mid);margin-left:2px">ml</span>';
+  return n + '<span style="font-size:18px;font-weight:500;color:var(--mid);margin-left:2px">L</span>';
+}
+
+function buildQuickGrid() {
+  var grid = document.getElementById('quickGrid');
+  grid.innerHTML = '';
+  QUICK_OPTIONS.forEach(function(l) {
+    var btn = document.createElement('div');
+    btn.className = 'quick-btn' + (l === currentLitres ? ' active' : '');
+    btn.innerHTML =
+      '<div class="ql">' + fmtVol(l) + '</div>' +
+      '<div class="qp">' + fmt(l) + '</div>';
+    btn.addEventListener('click', function() { setLitres(l); });
+    grid.appendChild(btn);
+  });
+}
+
+function setLitres(n) {
+  // Round to nearest 0.25
+  n = Math.round(n / STEP) * STEP;
+  n = Math.max(MIN_LITRES, Math.min(MAX_LITRES, n));
+  currentLitres = n;
+
+  // Update stepper display
+  document.getElementById('litreDisplay').innerHTML = fmtVolBig(n);
+  document.getElementById('manualInput').value = n;
+  document.getElementById('btnMinus').disabled = n <= MIN_LITRES;
+  document.getElementById('btnPlus').disabled = n >= MAX_LITRES;
+
+  // Update price display
+  var rm = (n * RATE_PER_LITRE).toFixed(2);
+  var volLabel = n < 1 ? Math.round(n * 1000) + ' ml' : n + ' liter';
+  document.getElementById('displayLitres').innerHTML = volLabel + ' <span>air bersih</span>';
+  document.getElementById('displayPrice').innerHTML = '<span>RM</span>' + rm;
+  document.getElementById('btnLabel').textContent = 'Bayar RM' + rm;
+
+  // Update quick grid active state
+  document.querySelectorAll('.quick-btn').forEach(function(btn, i) {
+    btn.classList.toggle('active', QUICK_OPTIONS[i] === n);
+  });
+
+  hideError();
+}
+
+function step(delta) {
+  setLitres(currentLitres + (delta * STEP));
+}
+
+function onManualInput(val) {
+  var n = parseFloat(val);
+  if (!isNaN(n) && n >= MIN_LITRES && n <= MAX_LITRES) {
+    setLitres(n);
+  }
+}
+
+function showError(msg) {
+  var el = document.getElementById('errorMsg');
+  el.textContent = msg;
+  el.style.display = 'block';
+}
+
+function hideError() {
+  document.getElementById('errorMsg').style.display = 'none';
+}
+
+function setLoading(on) {
+  var btn = document.getElementById('payBtn');
+  var spinner = document.getElementById('spinner');
+  if (on) {
+    btn.disabled = true;
+    btn.classList.add('loading');
+    spinner.style.display = 'block';
+  } else {
+    btn.disabled = false;
+    btn.classList.remove('loading');
+    spinner.style.display = 'none';
+  }
+}
+
+function addField(name, value) {
+  var i = document.createElement('input');
+  i.type = 'hidden';
+  i.name = name;
+  i.value = value;
+  document.getElementById('payForm').appendChild(i);
+}
+
+async function pay() {
+  hideError();
+  var litres = currentLitres;
+  var amount = (litres * RATE_PER_LITRE).toFixed(2);
+
+  setLoading(true);
+
+  try {
+    // Call Netlify function to get signed orderId
+    var res = await fetch(CREATE_ORDER_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ amount: amount })
+    });
+
+    if (!res.ok) throw new Error('Server error ' + res.status);
+
+    var data = await res.json();
+    if (!data.orderId || !data.signature) throw new Error('Invalid response from server');
+
+    // Build and submit Fiuu form
+    var form = document.getElementById('payForm');
+    form.innerHTML = '';
+
+    var fields = {
+      MerchantCode:    data.merchantCode,
+      PaymentId:       '',
+      RefNo:           data.orderId,
+      Amount:          data.amount,
+      Currency:        'MYR',
+      ProdDesc:        litres + ' liter air bersih DiAir',
+      UserName:        'Pelanggan',
+      UserEmail:       'customer@diair.my',
+      UserContact:     '0122773093',
+      Remark:          litres + 'L',
+      Lang:            'UTF-8',
+      SignatureType:   'MD5',
+      Signature:       data.signature,
+      ResponseURL:     RETURN_URL,
+      BackendURL:      'https://diairmy.netlify.app/.netlify/functions/payment-webhook'
+    };
+
+    Object.entries(fields).forEach(function(kv) { addField(kv[0], kv[1]); });
+    form.submit();
+
+  } catch (err) {
+    setLoading(false);
+    showError('Ralat: Tidak dapat membuat pesanan. Sila cuba lagi.\n(' + err.message + ')');
+    console.error('create-order error:', err);
+  }
+}
+
+// Init
+buildQuickGrid();
+setLitres(1);
 </script>
 </body>
 </html>
