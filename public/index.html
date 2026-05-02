@@ -41,7 +41,13 @@ nav {
 nav ul { list-style: none; display: flex; gap: 2rem; }
 nav ul li a { font-size: 14px; font-weight: 500; color: var(--mid); text-decoration: none; transition: color .2s; }
 nav ul li a:hover { color: var(--accent); }
-.nav-cta { background: var(--accent); color: white !important; padding: 8px 18px; border-radius: 8px; transition: background .2s !important; }
+.nav-cta {
+  background: var(--accent); color: white !important;
+  padding: 10px 20px; border-radius: 8px;
+  transition: background .2s !important;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
 .nav-cta:hover { background: var(--accent-dark) !important; color: white !important; }
 
 /* HERO */
@@ -52,24 +58,65 @@ nav ul li a:hover { color: var(--accent); }
   background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 40%, #bae6fd 100%);
   position: relative; overflow: hidden;
 }
+/* ── FIX: the decorative circle must stay BEHIND buttons ── */
 .hero::before {
   content: '';
   position: absolute; bottom: -80px; right: -80px;
   width: 500px; height: 500px;
   background: radial-gradient(circle, rgba(14,165,233,0.12) 0%, transparent 70%);
   border-radius: 50%;
+  z-index: 0;          /* explicitly behind */
+  pointer-events: none; /* never intercept taps */
 }
-.hero-inner { max-width: 1100px; margin: 0 auto; width: 100%; display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
-.hero-badge { display: inline-flex; align-items: center; gap: 7px; background: rgba(14,165,233,0.12); color: var(--accent-dark); font-size: 13px; font-weight: 600; padding: 6px 14px; border-radius: 999px; margin-bottom: 24px; letter-spacing: .02em; }
-.hero-badge::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: var(--accent); }
+.hero-inner {
+  max-width: 1100px; margin: 0 auto; width: 100%;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 60px;
+  align-items: center;
+  position: relative; z-index: 1; /* above ::before */
+}
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 7px;
+  background: rgba(14,165,233,0.12); color: var(--accent-dark);
+  font-size: 13px; font-weight: 600; padding: 6px 14px;
+  border-radius: 999px; margin-bottom: 24px; letter-spacing: .02em;
+}
+.hero-badge::before {
+  content: ''; width: 8px; height: 8px; border-radius: 50%; background: var(--accent);
+}
 h1 { font-size: clamp(36px, 5vw, 58px); font-weight: 700; line-height: 1.1; color: var(--ink); margin-bottom: 20px; }
 h1 em { font-style: normal; color: var(--accent); }
 .hero-sub { font-size: 18px; color: var(--mid); line-height: 1.65; margin-bottom: 36px; font-weight: 400; }
-.hero-btns { display: flex; gap: 14px; flex-wrap: wrap; }
-.btn-primary { display: inline-flex; align-items: center; gap: 8px; background: var(--accent); color: white; font-size: 16px; font-weight: 600; padding: 14px 28px; border-radius: 10px; text-decoration: none; transition: background .2s, transform .15s; }
+
+/* ── Hero buttons — mobile-safe ── */
+.hero-btns { display: flex; gap: 14px; flex-wrap: wrap; position: relative; z-index: 2; }
+.btn-primary {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--accent); color: white;
+  font-size: 17px; font-weight: 700;
+  padding: 16px 32px; border-radius: 12px;
+  text-decoration: none;
+  transition: background .2s, transform .15s;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  cursor: pointer;
+  position: relative; z-index: 2;
+}
 .btn-primary:hover { background: var(--accent-dark); transform: translateY(-1px); }
-.btn-secondary { display: inline-flex; align-items: center; gap: 8px; background: white; color: var(--ink); font-size: 16px; font-weight: 500; padding: 14px 28px; border-radius: 10px; border: 1.5px solid var(--border); text-decoration: none; transition: border-color .2s, transform .15s; }
+.btn-primary:active { transform: scale(0.97); }
+.btn-secondary {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: white; color: var(--ink);
+  font-size: 16px; font-weight: 500;
+  padding: 16px 28px; border-radius: 12px;
+  border: 1.5px solid var(--border); text-decoration: none;
+  transition: border-color .2s, transform .15s;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  cursor: pointer;
+  position: relative; z-index: 2;
+}
 .btn-secondary:hover { border-color: var(--accent); transform: translateY(-1px); }
+
 .hero-visual { display: flex; justify-content: center; align-items: center; }
 .machine-card {
   background: white; border-radius: 24px; padding: 36px 32px;
@@ -80,14 +127,18 @@ h1 em { font-style: normal; color: var(--accent); }
 .machine-card h3 { font-size: 18px; font-weight: 700; color: var(--ink); margin-bottom: 8px; }
 .machine-card p { font-size: 14px; color: var(--mid); line-height: 1.5; margin-bottom: 24px; }
 .payment-badges { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
-.payment-badge { background: var(--pale); color: var(--accent-dark); font-size: 11px; font-weight: 600; padding: 5px 12px; border-radius: 999px; border: 1px solid var(--border); }
+.payment-badge {
+  background: var(--pale); color: var(--accent-dark);
+  font-size: 11px; font-weight: 600;
+  padding: 5px 12px; border-radius: 999px; border: 1px solid var(--border);
+}
 
 /* STATS */
 .stats { background: var(--ink); padding: 48px 5vw; }
 .stats-inner { max-width: 900px; margin: 0 auto; display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
 .stat { text-align: center; }
 .stat-num { font-size: 42px; font-weight: 700; color: var(--accent); line-height: 1; }
-.stat-label { font-size: 13px; color: rgba(255,255,255,0.55); margin-top: 6px; font-weight: 400; }
+.stat-label { font-size: 13px; color: rgba(255,255,255,0.55); margin-top: 6px; }
 
 /* HOW IT WORKS */
 .section { padding: 96px 5vw; }
@@ -134,8 +185,21 @@ h1 em { font-style: normal; color: var(--accent); }
 .cta-section { background: linear-gradient(135deg, #0ea5e9, #0369a1); padding: 80px 5vw; text-align: center; }
 .cta-section h2 { font-size: clamp(28px, 4vw, 42px); font-weight: 700; color: white; margin-bottom: 14px; }
 .cta-section p { font-size: 18px; color: rgba(255,255,255,0.75); margin-bottom: 36px; }
-.btn-white { display: inline-flex; align-items: center; gap: 8px; background: white; color: var(--accent-dark); font-size: 16px; font-weight: 700; padding: 16px 32px; border-radius: 10px; text-decoration: none; transition: transform .15s; }
-.btn-white:hover { transform: translateY(-2px); }
+.btn-white {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: white; color: var(--accent-dark);
+  font-size: 18px; font-weight: 800;
+  padding: 18px 40px; border-radius: 12px;
+  text-decoration: none;
+  transition: transform .15s, box-shadow .15s;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  cursor: pointer;
+  position: relative; z-index: 2;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+}
+.btn-white:hover { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(0,0,0,0.18); }
+.btn-white:active { transform: scale(0.97); }
 
 /* FOOTER */
 footer { background: #07182a; padding: 48px 5vw 32px; }
@@ -147,21 +211,46 @@ footer { background: #07182a; padding: 48px 5vw 32px; }
 .footer-col ul li { margin-bottom: 8px; }
 .footer-col ul li a { font-size: 14px; color: rgba(255,255,255,0.45); text-decoration: none; transition: color .2s; }
 .footer-col ul li a:hover { color: var(--accent); }
-.footer-bottom { border-top: 1px solid rgba(255,255,255,0.08); padding-top: 24px; display: flex; justify-content: space-between; align-items: center; flex-wrap: gap; gap: 12px; }
+.footer-bottom { border-top: 1px solid rgba(255,255,255,0.08); padding-top: 24px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
 .footer-bottom p { font-size: 13px; color: rgba(255,255,255,0.3); }
 .footer-bottom a { color: rgba(255,255,255,0.3); text-decoration: none; }
 .footer-bottom a:hover { color: var(--accent); }
 
+/* ── MOBILE ── */
 @media (max-width: 768px) {
   nav ul { display: none; }
-  .hero-inner { grid-template-columns: 1fr; }
+  .hero-inner { grid-template-columns: 1fr; gap: 32px; }
   .hero-visual { display: none; }
+
+  /* Full-width primary button on mobile for easy tapping */
+  .hero-btns { flex-direction: column; gap: 12px; }
+  .btn-primary {
+    width: 100%;
+    justify-content: center;
+    font-size: 18px;
+    padding: 18px 24px;
+    border-radius: 14px;
+  }
+  .btn-secondary {
+    width: 100%;
+    justify-content: center;
+    font-size: 16px;
+    padding: 15px 24px;
+  }
+
   .stats-inner { grid-template-columns: repeat(2, 1fr); }
   .steps-grid { grid-template-columns: 1fr 1fr; }
   .features-grid { grid-template-columns: 1fr; }
   .payment-methods { grid-template-columns: repeat(3, 1fr); }
   .about-grid { grid-template-columns: 1fr; }
   .footer-grid { grid-template-columns: 1fr 1fr; }
+
+  .btn-white {
+    width: 100%;
+    justify-content: center;
+    font-size: 18px;
+    padding: 18px 24px;
+  }
 }
 </style>
 </head>
@@ -190,8 +279,7 @@ footer { background: #07182a; padding: 48px 5vw 32px; }
       <p class="hero-sub">Scan. Pay. Done. Fresh purified water dispensed instantly at your community water station — with DuitNow QR, Touch 'n Go, Alipay, and more.</p>
       <div class="hero-btns">
         <a href="pay.html" class="btn-primary">
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2a6 6 0 100 12A6 6 0 008 2zM7 5.5h2v3H7zm0 4h2v1.5H7z" fill="white"/></svg>
-          Scan & Pay Now
+          💧 Scan &amp; Pay Now
         </a>
         <a href="#how-it-works" class="btn-secondary">Learn how it works</a>
       </div>
@@ -236,7 +324,7 @@ footer { background: #07182a; padding: 48px 5vw 32px; }
       <div class="step-card" data-num="2">
         <div class="step-icon">💰</div>
         <h4>Choose your amount</h4>
-        <p>Select how much water you want — RM1, RM2, or RM5. Pick your preferred payment method.</p>
+        <p>Select how much water you want — from 250ml to 10L. Pick your preferred payment method.</p>
       </div>
       <div class="step-card" data-num="3">
         <div class="step-icon">✅</div>
@@ -259,7 +347,7 @@ footer { background: #07182a; padding: 48px 5vw 32px; }
     <div class="features-grid">
       <div class="feature">
         <div class="feature-icon">🛡️</div>
-        <h4>Safe & purified</h4>
+        <h4>Safe &amp; purified</h4>
         <p>Multi-stage filtration removes impurities, bacteria, and chlorine. Regular maintenance and water quality checks.</p>
       </div>
       <div class="feature">
@@ -301,7 +389,7 @@ footer { background: #07182a; padding: 48px 5vw 32px; }
       <div class="pm"><div class="pm-icon">📱</div><div class="pm-name">Touch 'n Go</div><div class="pm-sub">eWallet</div></div>
       <div class="pm"><div class="pm-icon">🔵</div><div class="pm-name">Alipay</div><div class="pm-sub">eWallet</div></div>
       <div class="pm"><div class="pm-icon">🌐</div><div class="pm-name">FPX</div><div class="pm-sub">Online banking</div></div>
-      <div class="pm"><div class="pm-icon">💳</div><div class="pm-name">Visa / Mastercard</div><div class="pm-sub">Debit & credit</div></div>
+      <div class="pm"><div class="pm-icon">💳</div><div class="pm-name">Visa / Mastercard</div><div class="pm-sub">Debit &amp; credit</div></div>
     </div>
   </div>
 </section>
@@ -362,7 +450,7 @@ footer { background: #07182a; padding: 48px 5vw 32px; }
 <section class="cta-section">
   <h2>Ready to get started?</h2>
   <p>Find a machine near you and get pure water in under 30 seconds.</p>
-  <a href="pay.html" class="btn-white">Scan & Pay Now →</a>
+  <a href="pay.html" class="btn-white">💧 Scan &amp; Pay Now →</a>
 </section>
 
 <footer>
@@ -385,7 +473,7 @@ footer { background: #07182a; padding: 48px 5vw 32px; }
       <div class="footer-col">
         <h5>Legal</h5>
         <ul>
-          <li><a href="terms.html">Terms & Conditions</a></li>
+          <li><a href="terms.html">Terms &amp; Conditions</a></li>
           <li><a href="privacy.html">Privacy Policy</a></li>
           <li><a href="refund.html">Refund Policy</a></li>
         </ul>
